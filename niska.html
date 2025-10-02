@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesan Semangat untuk Kamu</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fda7df, #9b59b6, #6c5ce7);
+      background-size: 600% 600%;
+      animation: gradientMove 12s ease infinite;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 500px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 30px;
+      font-size: 16px;
+      color: #9b59b6;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255,255,255,0.8);
+    }
+
+    .message {
+      font-size: 22px;
+      margin-top: 30px;
+      min-height: 70px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.show {
+      opacity: 1;
+      animation: fadeIn 1s ease;
+    }
+
+    /* Hati jatuh */
+    .heart {
+      position: fixed;
+      top: -10px;
+      color: #ffcccc;
+      font-size: 20px;
+      animation: fall 6s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hai, ini ada pesan semangat buat kamu 🌸</h1>
+    <button class="btn" onclick="showMessage()">Lihat Pesan</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const messages = [
+      "Kamu hebat, jangan ragu sama dirimu sendiri! 💪",
+      "Tetap semangat ya, setiap usaha kecilmu berarti besar 🌟",
+      "Hari ini mungkin berat, tapi kamu lebih kuat dari yang kamu kira 🌈",
+      "Kamu pantas mendapatkan kebahagiaan 🤍",
+      "Teruslah berusaha, hasil indah akan datang tepat waktu ✨",
+      "Kamu adalah alasan orang lain bisa tersenyum 💕"
+    ];
+
+    function showMessage() {
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      const msgEl = document.getElementById("message");
+      msgEl.innerText = messages[randomIndex];
+      msgEl.classList.remove("show");
+      void msgEl.offsetWidth; // reset animation
+      msgEl.classList.add("show");
+    }
+
+    // Efek hati jatuh
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+    setInterval(createHeart, 500);
+  </script>
+</body>
+</html>
