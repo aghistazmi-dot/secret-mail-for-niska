@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kata-kata Semangat & Pujian untuk Niska</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; text-align: center; padding: 30px;}
+    .container { background: #fff; max-width: 400px; margin: 60px auto; padding: 24px; border-radius: 12px; box-shadow: 0 4px 20px #0001;}
+    h1 { color: #ef7b7b; }
+    .btn { padding: 12px 24px; background: #ef7b7b; color: #fff; border: none; border-radius: 6px; font-size: 1em; cursor: pointer;}
+    .btn:active { background: #cf6565; }
+    .link-box { margin-top: 30px; }
+    input[type="text"] { width: 90%; padding: 8px; border-radius: 4px; border: 1px solid #ddd;}
+    .msg { font-size: 1.3em; margin: 30px 0; color: #2d2d2d;}
+    .from { color: #ef7b7b; margin-top: 18px;}
+    @media (max-width: 600px) {.container {max-width: 95%;}}
+  </style>
+</head>
+<body>
+  <div class="container" id="mainPage">
+    <h1>Pesan Semangat untuk Niska</h1>
+    <p>Klik tombol di bawah untuk membuat link pesan penyemangat atau pujian spesial untuk Niska!</p>
+    <button class="btn" onclick="generateLink()">Buat Link Pesan</button>
+    <div class="link-box" id="linkBox" style="display:none;">
+      <p>Bagikan link ini ke Niska:</p>
+      <input type="text" id="resultLink" readonly>
+      <button class="btn" onclick="copyLink()">Copy</button>
+    </div>
+  </div>
+
+  <div class="container" id="pesanPage" style="display:none;">
+    <h1>Untuk Niska</h1>
+    <div class="msg" id="msgBox">Loading...</div>
+    <button class="btn" onclick="window.location.href='index.html'">Buat Link Lain</button>
+    <div class="from">Dari: Teman Rahasia 😁</div>
+  </div>
+  <script>
+    // Daftar pesan penyemangat
+    const pesanList = [
+      "Niska, kamu itu luar biasa dan selalu membawa semangat positif di sekitarmu!",
+      "Tetap percaya diri ya, Niska! Kamu punya potensi yang hebat.",
+      "Jangan pernah ragu sama kemampuanmu, Niska. Kamu keren!",
+      "Niska, semangatmu selalu menginspirasi orang di sekitarmu.",
+      "Apapun yang kamu lakukan hari ini, yakinlah kamu pasti bisa!",
+      "Kamu pantas mendapatkan semua kebahagiaan, Niska.",
+      "Tetap tersenyum, dunia jadi lebih indah dengan senyummu, Niska!",
+      "Niska, kamu tidak pernah sendiri. Banyak yang sayang dan mendukungmu.",
+      "Jangan takut gagal, Niska. Kegagalan adalah bagian dari perjalanan sukses.",
+      "Kamu adalah versi terbaik dari dirimu sendiri, Niska."
+    ];
+    function hashCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) hash += str.charCodeAt(i);
+      return hash;
+    }
+    function getPesanByCode(code) {
+      if (!code) return pesanList[Math.floor(Math.random() * pesanList.length)];
+      const idx = Math.abs(hashCode(code)) % pesanList.length;
+      return pesanList[idx];
+    }
+    function getKode() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("k");
+    }
+    function showPesanPage(msg) {
+      document.getElementById('mainPage').style.display = 'none';
+      document.getElementById('pesanPage').style.display = 'block';
+      document.getElementById('msgBox').innerText = msg;
+    }
+    function showMainPage() {
+      document.getElementById('mainPage').style.display = 'block';
+      document.getElementById('pesanPage').style.display = 'none';
+    }
+    function generateLink() {
+      const code = Math.random().toString(36).substr(2, 6);
+      const url = window.location.origin + window.location.pathname + '?k=' + code;
+      document.getElementById('resultLink').value = url;
+      document.getElementById('linkBox').style.display = 'block';
+    }
+    function copyLink() {
+      const link = document.getElementById('resultLink');
+      link.select();
+      document.execCommand("copy");
+      alert("Link disalin!");
+    }
+    // On load, cek jika ada kode pesan
+    window.onload = function() {
+      const kode = getKode();
+      if (kode) {
+        showPesanPage(getPesanByCode(kode));
+      } else {
+        showMainPage();
+      }
+    }
+  </script>
+</body>
+</html>
